@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Tech Jobs Portal | Daily Fresher Software Jobs</title>
+
+  <!-- SEO -->
+  <meta name="description"
+    content="Find latest fresher and entry-level software jobs in India. Daily updated IT jobs from top MNCs and startups." />
+  <meta name="keywords"
+    content="fresher jobs, software jobs, IT jobs, developer jobs, tech jobs India, entry level jobs" />
+  <meta name="author" content="Tech Jobs Portal" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://chinthaparthisridhar.in/" />
+
+  <!-- OpenGraph -->
+  <meta property="og:title" content="Tech Jobs Portal" />
+  <meta property="og:description" content="Daily updated fresher tech jobs in India" />
+  <meta property="og:type" content="website" />
+
+  <!-- Schema -->
+  <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"JobBoard",
+      "name":"Tech Jobs Portal",
+      "description":"Daily fresher IT jobs in India"
+    }
+  </script>
+
+  <!-- Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+    rel="stylesheet">
+<style>
+  * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  min-height: 100vh;
+  padding: 20px;
+  color: #f1f5f9;
+}
+
+.container {
+  max-width: 1400px;
+  margin: auto;
+}
+
+/* HEADER */
+
+header {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(18px);
+  padding: 30px;
+  border-radius: 18px;
+  text-align: center;
+  margin-bottom: 25px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+header h1 {
+  font-size: 2.4rem;
+  background: linear-gradient(90deg,#38bdf8,#22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+header p {
+  margin-top: 8px;
+  color: #94a3b8;
+}
+
+/* CONTROLS */
+
+.controls {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  padding: 18px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.controls input,
+.controls select {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.05);
+  color: white;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.controls input::placeholder {
+  color: #94a3b8;
+}
+
+.controls input:focus,
+.controls select:focus {
+  outline: none;
+  border-color: #22d3ee;
+  box-shadow: 0 0 12px rgba(34,211,238,0.4);
+}
+
+.search-box {
+  flex: 2;
+}
+
+.filter-box {
+  flex: 1;
+  min-width: 180px;
+}
+
+/* STATS */
+
+.stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.stats > div {
+  flex: 1;
+  min-width: 150px;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: transform 0.3s ease;
+}
+
+.stats > div:hover {
+  transform: translateY(-4px);
+}
+
+.stats-number {
+  font-size: 24px;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+/* TABLE */
+
+.table-container {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  overflow-x: auto;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+thead {
+  background: rgba(255,255,255,0.05);
+}
+
+th {
+  padding: 16px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #94a3b8;
+}
+
+td {
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  font-size: 14px;
+}
+
+tbody tr {
+  transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+  background: rgba(34,211,238,0.07);
+}
+
+/* BADGE */
+
+.category-badge {
+  background: rgba(34,211,238,0.15);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #22d3ee;
+}
+
+/* BUTTON */
+
+.apply-btn {
+  background: linear-gradient(135deg,#38bdf8,#22d3ee);
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.apply-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(34,211,238,0.4);
+}
+
+/* LOADING */
+
+.loading {
+  text-align: center;
+  padding: 30px;
+  color: #94a3b8;
+}
+
+/* MOBILE */
+
+@media(max-width:768px) {
+
+  header h1 {
+    font-size: 1.8rem;
+  }
+
+  .stats {
+    flex-direction: column;
+  }
+
+  table {
+    min-width: 550px;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <header>
+      <h1> Tech Jobs Portal</h1>
+      <p>Daily Fresher & Entry-Level IT Jobs</p>
+    </header>
+
+    <section class="controls">
+
+      <div class="search-box">
+        <input id="searchInput" type="text" placeholder="Search company or role..."
+          aria-label="Search jobs" />
+      </div>
+
+      <div class="filter-box">
+        <select id="categoryFilter" aria-label="Filter by category">
+          <option value="">All Categories</option>
+        </select>
+      </div>
+
+    </section>
+
+    <section class="stats">
+
+      <div>
+        <span id="totalJobs">0</span>
+        Total Jobs
+      </div>
+
+      <div>
+        <span id="companiesCount">0</span>
+        Companies
+      </div>
+
+      <div>
+        <span id="filteredCount">0</span>
+        Showing
+      </div>
+
+    </section>
+
+    <section class="table-container">
+
+      <table aria-label="Jobs Table">
+
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Role</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Apply</th>
+          </tr>
+        </thead>
+
+        <tbody id="jobsTableBody">
+          <tr>
+            <td colspan="4" class="loading">Loading jobs...</td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </section>
+
+  </main>
+
+  <script>
+
+    let jobsData = [];
+    let filteredJobs = [];
+
+    const SHEET_URL =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTl18ACAimHKP6rnGtCqx8OVsIDay1hOfw67U5EwYmMOL77jUfo3QIZmjIh5589YV4Kp22hIHygLWla/pub?output=csv";
+
+
+    function parseCSV(text) {
+
+      return text.trim().split(/\r?\n/).map(r =>
+        r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+          .map(c => c.replace(/(^"|"$)/g, "").trim())
+      );
+    }
+
+
+    async function loadJobs() {
+
+      try {
+
+        const res = await fetch(SHEET_URL);
+        const csv = await res.text();
+
+        const rows = parseCSV(csv);
+
+        jobsData = rows.slice(1).map(r => ({
+          company: r[0] || "",
+          role: r[1] || "",
+          category: r[2] || "",
+          date: r[3] || "",
+          link: r[4] || ""
+        })).filter(j => j.company);
+
+        jobsData.reverse();
+        filteredJobs = [...jobsData];
+
+        populateFilters();
+        renderJobs();
+
+      } catch (err) {
+
+        document.getElementById("jobsTableBody").innerHTML =
+          `<tr><td colspan="4" class="loading">Failed to load data</td></tr>`;
+
+        console.error(err);
+      }
+    }
+
+
+    function populateFilters() {
+
+      const filter = document.getElementById("categoryFilter");
+
+      const cats = [...new Set(
+        jobsData.map(j => j.category.trim()).filter(Boolean)
+      )].sort();
+
+      cats.forEach(c => {
+
+        const opt = document.createElement("option");
+        opt.value = c.toLowerCase();
+        opt.textContent = c;
+
+        filter.appendChild(opt);
+      });
+    }
+
+
+    function renderJobs() {
+
+      const body = document.getElementById("jobsTableBody");
+      body.innerHTML = "";
+
+      if (!filteredJobs.length) {
+
+        body.innerHTML =
+          `<tr><td colspan="4" class="loading">No jobs found</td></tr>`;
+
+        return;
+      }
+
+      const fragment = document.createDocumentFragment();
+
+      filteredJobs.forEach(j => {
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+          <td>${j.company}</td>
+          <td>${j.role}</td>
+          <td><span class="badge">${j.category}</span></td>
+          <td><span class="badge">${j.date}</span></td>
+          <td><a href="${j.link}" target="_blank" class="apply-btn">Apply</a></td>
+        `;
+
+        fragment.appendChild(tr);
+      });
+
+      body.appendChild(fragment);
+
+      document.getElementById("totalJobs").textContent = jobsData.length;
+      document.getElementById("companiesCount").textContent =
+        new Set(jobsData.map(j => j.company)).size;
+
+      document.getElementById("filteredCount").textContent =
+        filteredJobs.length;
+    }
+
+
+    function debounce(fn, delay = 300) {
+
+      let timer;
+
+      return (...args) => {
+
+        clearTimeout(timer);
+
+        timer = setTimeout(() => {
+          fn(...args);
+        }, delay);
+      };
+    }
+
+
+    function filterJobs() {
+
+      const search =
+        document.getElementById("searchInput").value.toLowerCase().trim();
+
+      const cat =
+        document.getElementById("categoryFilter").value;
+
+      filteredJobs = jobsData.filter(j => {
+
+        const txt =
+          `${j.company} ${j.role} ${j.category}`.toLowerCase();
+
+        return (!search || txt.includes(search)) &&
+          (!cat || j.category.toLowerCase() === cat);
+      });
+
+      renderJobs();
+    }
+
+
+    const debouncedFilter = debounce(filterJobs, 250);
+
+    document.getElementById("searchInput")
+      .addEventListener("input", debouncedFilter);
+
+    document.getElementById("categoryFilter")
+      .addEventListener("change", filterJobs);
+
+
+    loadJobs();
+
+  </script>
+
+</body>
+
+</html>
