@@ -639,36 +639,111 @@
 
     /* ── Mobile ──────────────────────────────────────────────── */
     @media (max-width: 768px) {
-      .shell { grid-template-columns: 1fr; }
 
-      .topbar { padding: 0 16px; }
-
-      .sidebar {
-        grid-column: 1;
-        height: auto;
-        position: static;
-        border-right: none;
-        border-bottom: 1px solid var(--line);
-        padding: 16px 0;
-      }
-
-      .sidebar-section { padding: 0 16px; }
-
-      .main { padding: 16px; }
-
-      .cat-list { flex-direction: row; flex-wrap: wrap; gap: 6px; }
-      .cat-item { flex-direction: row; }
-      .cat-count { display: none; }
-
-      .stat-grid { grid-template-columns: repeat(4, 1fr); }
-
-      th, td { padding: 10px 12px; }
-
-      .co-avatar { display: none; }
-
-      .hero { margin-bottom: 16px; }
+    .shell {
+      display: block;
     }
 
+    .topbar {
+      padding: 0 12px;
+      height: 52px;
+    }
+
+    .logo-name {
+      font-size: 13px;
+    }
+
+    .logo-sub {
+      font-size: 8px;
+    }
+
+    /* Hide sidebar completely on mobile */
+    .sidebar {
+      display: none;
+    }
+
+    .main {
+      padding: 12px;
+    }
+
+    .hero {
+      margin-bottom: 12px;
+    }
+
+    .hero-headline {
+      font-size: 1.4rem;
+    }
+
+    .hero-sub {
+      font-size: 12px;
+    }
+
+    /* Mobile search bar */
+    .toolbar {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .toolbar::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+
+    .table-wrap {
+      border-radius: 10px;
+    }
+
+    table {
+      min-width: 100%;
+    }
+
+    th {
+      font-size: 9px;
+      padding: 8px;
+    }
+
+    td {
+      padding: 8px;
+      font-size: 12px;
+    }
+
+    .co-avatar {
+      display: none;
+    }
+
+    .co-name {
+      font-size: 12px;
+    }
+
+    .role-text {
+      font-size: 12px;
+    }
+
+    .cat-tag {
+      font-size: 9px;
+      padding: 3px 6px;
+    }
+
+    .date-text {
+      font-size: 10px;
+    }
+
+    .apply-btn {
+      padding: 6px 10px;
+      font-size: 11px;
+    }
+
+    .pagination {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-bar {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
     @media (max-width: 480px) {
       .live-badge { display: none; }
       .stat-grid { grid-template-columns: 1fr 1fr; }
