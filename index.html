@@ -1,1129 +1,1426 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SilentCoderHub · Jobs</title>
-  <meta name="description" content="Daily fresher and entry-level software jobs. Curated for coders who build quietly and ship loudly." />
-  <meta name="keywords" content="fresher jobs, software jobs, IT jobs, developer jobs, SilentCoderHub" />
-  <meta name="robots" content="index, follow" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
-
-  <style>
-    /* ── Tokens ──────────────────────────────────────────── */
-    :root {
-      --ink:        #09090b;
-      --surface:    #111113;
-      --panel:      #18181b;
-      --line:       #27272a;
-      --line-lt:    #3f3f46;
-      --text:       #e4e4e7;
-      --muted:      #71717a;
-      --faint:      #3f3f46;
-      --amber:      green;
-      --amber-dim:  #78350f;
-      --amber-glow: rgba(245,158,11,0.12);
-      --green:      #22c55e;
-      --green-dim:  rgba(34,197,94,0.12);
-      --red:        #f87171;
-      --r-sm:       6px;
-      --r-md:       10px;
-      --r-lg:       16px;
-    }
-
-    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--ink);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* Scanline texture */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.08) 2px,
-        rgba(0,0,0,0.08) 4px
-      );
-      pointer-events: none;
-      z-index: 9999;
-      mix-blend-mode: multiply;
-    }
-
-    /* ── Layout Shell ─────────────────────────────────────── */
-    .shell {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      grid-template-rows: auto 1fr;
-      min-height: 100vh;
-    }
-
-    /* ── Topbar ───────────────────────────────────────────── */
-    .topbar {
-      grid-column: 1 / -1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 28px;
-      height: 58px;
-      border-bottom: 1px solid var(--line);
-      background: var(--surface);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-
-    .logo-mark {
-      width: 32px;
-      height: 32px;
-      background: var(--amber);
-      border-radius: 6px;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-    }
-
-    .logo-mark svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1;
-    }
-
-    .logo-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.3px;
-    }
-
-    .logo-sub {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9px;
-      color: var(--amber);
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      margin-top: 2px;
-    }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .live-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--green);
-      background: var(--green-dim);
-      border: 1px solid rgba(34,197,94,0.2);
-      padding: 5px 12px;
-      border-radius: 20px;
-    }
-
-    .live-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--green);
-      border-radius: 50%;
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    .topbar-link {
-      font-size: 13px;
-      color: var(--muted);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: color 0.2s;
-    }
-    .topbar-link:hover { color: var(--text); }
-
-    /* ── Sidebar ──────────────────────────────────────────── */
-    .sidebar {
-      grid-column: 1;
-      background: var(--surface);
-      border-right: 1px solid var(--line);
-      padding: 24px 0;
-      height: calc(100vh - 58px);
-      position: sticky;
-      top: 58px;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: var(--faint) transparent;
-    }
-
-    .sidebar-section {
-      padding: 0 20px;
-      margin-bottom: 28px;
-    }
-
-    .sidebar-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1.8px;
-      margin-bottom: 10px;
-      display: block;
-    }
-
-    .search-wrap {
-      position: relative;
-    }
-
-    .search-wrap svg {
-      position: absolute;
-      left: 11px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted);
-      width: 14px;
-      height: 14px;
-    }
-
-    .search-input {
-      width: 100%;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--r-sm);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      padding: 9px 12px 9px 32px;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .search-input::placeholder { color: var(--faint); }
-
-    .search-input:focus {
-      border-color: var(--amber);
-      box-shadow: 0 0 0 3px rgba(245,158,11,0.1);
-    }
-
-    /* Category filters */
-    .cat-list {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .cat-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 10px;
-      border-radius: var(--r-sm);
-      cursor: pointer;
-      transition: background 0.15s;
-      border: 1px solid transparent;
-    }
-
-    .cat-item:hover { background: var(--panel); }
-
-    .cat-item.active {
-      background: var(--amber-glow);
-      border-color: rgba(245,158,11,0.2);
-    }
-
-    .cat-item-name {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      color: var(--muted);
-      transition: color 0.15s;
-    }
-
-    .cat-item.active .cat-item-name { color: var(--amber); }
-    .cat-item:hover .cat-item-name { color: var(--text); }
-
-    .cat-count {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      color: var(--faint);
-      background: var(--panel);
-      padding: 2px 6px;
-      border-radius: 4px;
-      border: 1px solid var(--line);
-    }
-
-    .cat-item.active .cat-count {
-      background: var(--amber-glow);
-      border-color: rgba(245,158,11,0.2);
-      color: var(--amber);
-    }
-
-    /* Stats in sidebar */
-    .stat-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .stat-tile {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--r-sm);
-      padding: 12px 10px;
-      text-align: center;
-    }
-
-    .stat-num {
-      display: block;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--amber);
-      line-height: 1;
-    }
-
-    .stat-lbl {
-      display: block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 9px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 4px;
-    }
-
-    .divider {
-      height: 1px;
-      background: var(--line);
-      margin: 0 20px 28px;
-    }
-
-    /* ── Main Content ─────────────────────────────────────── */
-    .main {
-      grid-column: 2;
-      padding: 24px 28px;
-      overflow-y: auto;
-      min-height: calc(100vh - 58px);
-    }
-
-    /* Hero */
-    .hero {
-      margin-bottom: 28px;
-    }
-
-    .hero-headline {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(1.5rem, 3vw, 2.2rem);
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.15;
-      letter-spacing: -0.8px;
-    }
-
-    .hero-headline .accent { color: var(--amber); }
-
-    .cursor {
-      display: inline-block;
-      width: 3px;
-      height: 1em;
-      background: var(--amber);
-      margin-left: 3px;
-      vertical-align: text-bottom;
-      animation: blink 1s step-end infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-
-    .hero-sub {
-      margin-top: 8px;
-      font-size: 14px;
-      color: var(--muted);
-      font-weight: 300;
-    }
-
-    /* Toolbar */
-    .toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .result-info {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .result-info span { color: var(--amber); }
-
-    /* ── Table ─────────────────────────────────────────────── */
-    .table-wrap {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r-lg);
-      overflow: hidden;
-    }
-
-    .table-scroll { overflow-x: auto; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 640px;
-    }
-
-    thead {
-      border-bottom: 1px solid var(--line);
-    }
-
-    th {
-      padding: 11px 16px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--faint);
-      font-weight: 500;
-      text-align: left;
-      background: var(--panel);
-    }
-
-    td {
-      padding: 13px 16px;
-      border-top: 1px solid rgba(255,255,255,0.03);
-      font-size: 13.5px;
-      vertical-align: middle;
-    }
-
-    tbody tr {
-      transition: background 0.15s;
-      animation: rowIn 0.25s ease both;
-    }
-
-    @keyframes rowIn {
-      from { opacity: 0; transform: translateX(-6px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-
-    tbody tr:hover { background: rgba(245,158,11,0.04); }
-
-    .co-cell {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .co-avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 6px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--amber);
-      text-transform: uppercase;
-    }
-
-    .co-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 600;
-      font-size: 13.5px;
-      color: var(--text);
-    }
-
-    .role-text {
-      color: #a1a1aa;
-      font-size: 13px;
-    }
-
-    .cat-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--amber);
-      background: var(--amber-glow);
-      border: 1px solid rgba(245,158,11,0.18);
-      padding: 4px 9px;
-      border-radius: 4px;
-      white-space: nowrap;
-    }
-
-    .cat-tag::before { content: '<'; opacity: 0.5; }
-    .cat-tag::after  { content: '/>'; opacity: 0.5; }
-
-    .date-text {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-
-    .apply-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--ink);
-      background: var(--amber);
-      padding: 7px 15px;
-      border-radius: var(--r-sm);
-      text-decoration: none;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-      letter-spacing: 0.2px;
-    }
-
-    .apply-btn:hover {
-      background: #fbbf24;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(245,158,11,0.35);
-    }
-
-    .apply-btn svg {
-      width: 11px;
-      height: 11px;
-    }
-
-    /* ── Empty / Loading states ────────────────────────────── */
-    .state-row td {
-      text-align: center;
-      padding: 56px 20px;
-      color: var(--muted);
-    }
-
-    .state-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .state-icon {
-      font-size: 32px;
-      opacity: 0.5;
-    }
-
-    .state-msg {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .spinner {
-      width: 24px;
-      height: 24px;
-      border: 2px solid var(--line);
-      border-top-color: var(--amber);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── Pagination ─────────────────────────────────────────── */
-    .pagination {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 20px;
-      border-top: 1px solid var(--line);
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .page-btns {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .page-btn {
-      padding: 6px 11px;
-      border-radius: var(--r-sm);
-      background: var(--panel);
-      border: 1px solid var(--line);
-      color: var(--muted);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      cursor: pointer;
-      transition: all 0.15s;
-      min-width: 34px;
-      text-align: center;
-    }
-
-    .page-btn:hover:not(:disabled) {
-      border-color: var(--amber);
-      color: var(--amber);
-      background: var(--amber-glow);
-    }
-
-    .page-btn.active {
-      background: var(--amber);
-      border-color: var(--amber);
-      color: var(--ink);
-      font-weight: 600;
-    }
-
-    .page-btn:disabled { opacity: 0.25; cursor: not-allowed; }
-
-    .page-meta {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    /* ── Footer ─────────────────────────────────────────────── */
-    .footer-bar {
-      margin-top: 24px;
-      padding: 16px 0 4px;
-      border-top: 1px solid var(--line);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .footer-bar p {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      color: var(--faint);
-    }
-
-    .footer-bar a { color: var(--amber); text-decoration: none; }
-
-    /* ── Mobile ──────────────────────────────────────────────── */
-    @media (max-width: 768px) {
-
-    .shell {
-      display: block;
-    }
-
-    .topbar {
-      padding: 0 12px;
-      height: 52px;
-    }
-
-    .logo-name {
-      font-size: 13px;
-    }
-
-    .logo-sub {
-      font-size: 8px;
-    }
-
-    /* Hide sidebar completely on mobile */
-    .sidebar {
-      display: none;
-    }
-
-    .main {
-      padding: 12px;
-    }
-
-    .hero {
-      margin-bottom: 12px;
-    }
-
-    .hero-headline {
-      font-size: 1.4rem;
-    }
-
-    .hero-sub {
-      font-size: 12px;
-    }
-
-    /* Mobile search bar */
-    .toolbar {
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .toolbar::after {
-      content: "";
-      display: block;
-      clear: both;
-    }
-
-    .table-wrap {
-      border-radius: 10px;
-    }
-
-    table {
-      min-width: 100%;
-    }
-
-    th {
-      font-size: 9px;
-      padding: 8px;
-    }
-
-    td {
-      padding: 8px;
-      font-size: 12px;
-    }
-
-    .co-avatar {
-      display: none;
-    }
-
-    .co-name {
-      font-size: 12px;
-    }
-
-    .role-text {
-      font-size: 12px;
-    }
-
-    .cat-tag {
-      font-size: 9px;
-      padding: 3px 6px;
-    }
-
-    .date-text {
-      font-size: 10px;
-    }
-
-    .apply-btn {
-      padding: 6px 10px;
-      font-size: 11px;
-    }
-
-    .pagination {
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .footer-bar {
-      flex-direction: column;
-      text-align: center;
-    }
-  }
-    @media (max-width: 480px) {
-      .live-badge { display: none; }
-      .stat-grid { grid-template-columns: 1fr 1fr; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SilentCoderHub · Jobs Board</title>
+    
+    <!-- Meta tags -->
+    <meta name="description" content="Daily fresher and entry-level software jobs. Curated for coders who build quietly and ship loudly." />
+    <meta name="keywords" content="fresher jobs, software jobs, IT jobs, developer jobs, SilentCoderHub" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- External CDNs only (No local assets) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+
+    <!-- Standalone Compiled CSS Block -->
+    <style>
+        /* ── Core Design System (Base & Layout) ───────────────── */
+        :root {
+            /* Color Palette - Light Mode */
+            --primary-color: #22C55E;
+            --primary-hover: #16A34A;
+            --primary-glow: rgba(34, 197, 94, 0.15);
+            
+            --bg-color: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-primary: #0F172A;
+            --text-secondary: #334155;
+            --text-muted: #64748B;
+            
+            --border-color: #E2E8F0;
+            --border-hover: #CBD5E1;
+            
+            --navbar-bg: rgba(248, 250, 252, 0.8);
+            --footer-bg: #0F172A;
+            --footer-text: #E2E8F0;
+            --footer-text-muted: #94A3B8;
+            
+            /* Layout Tokens */
+            --font-primary: 'Inter', sans-serif;
+            --font-heading: 'Space Grotesk', sans-serif;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.05), 0 4px 6px -2px rgba(15, 23, 42, 0.02);
+            --shadow-glow: 0 0 20px rgba(34, 197, 94, 0.2);
+            
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html[data-theme="dark"] {
+            /* Color Palette - Dark Mode Overrides */
+            --bg-color: #0F172A;
+            --card-bg: #1E293B;
+            --text-primary: #F8FAFC;
+            --text-secondary: #E2E8F0;
+            --text-muted: #94A3B8;
+            
+            --border-color: #334155;
+            --border-hover: #475569;
+            
+            --navbar-bg: rgba(15, 23, 42, 0.85);
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -1px rgba(0,0,0,0.2);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 25px rgba(34, 197, 94, 0.15);
+            
+            --primary-glow: rgba(34, 197, 94, 0.12);
+        }
+
+        /* Base Resets */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-color);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color var(--transition-normal), color var(--transition-normal);
+        }
+
+        /* Custom Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-hover);
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--bg-color);
+        }
+
+        html[data-theme="dark"] ::-webkit-scrollbar-track {
+            background: #0F172A;
+        }
+
+        html[data-theme="dark"] ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border: 2px solid #0F172A;
+        }
+
+        /* Scroll progress bar top */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), #4ADE80);
+            z-index: 9999;
+            transition: width 0.1s ease-out;
+        }
+
+        /* Header Navigation Bar */
+        .navbar-custom {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1050;
+            background-color: var(--navbar-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            transition: padding var(--transition-normal), background-color var(--transition-normal), border-color var(--transition-normal);
+        }
+
+        .navbar-custom.navbar-scrolled {
+            padding: 0.6rem 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .navbar-brand-img {
+            height: 52px;
+            width: auto;
+            object-fit: contain;
+            transition: height var(--transition-normal);
+            margin-left: -30px; 
+        }
+
+        .navbar-custom.navbar-scrolled .navbar-brand-img {
+            height: 40px;
+        }
+
+        html[data-theme="dark"] .navbar-brand-img {
+            filter: invert(1) hue-rotate(180deg);
+        }
+
+        .navbar-nav .nav-link {
+            font-family: var(--font-primary);
+            font-weight: 500;
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem !important;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-fast);
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: var(--primary-color);
+            background-color: var(--primary-glow);
+        }
+
+        .navbar-toggler-icon-custom {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+        }
+
+        .navbar-custom .navbar-toggler-icon {
+            background-image: none !important;
+            width: auto !important;
+            height: auto !important;
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Theme Switcher Toggle styling */
+        .theme-toggle-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+        }
+
+        .theme-toggle-btn:hover {
+            background-color: var(--primary-glow);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .theme-toggle-btn .fa-sun {
+            display: none;
+        }
+
+        .theme-toggle-btn .fa-moon {
+            display: block;
+        }
+
+        html[data-theme="dark"] .theme-toggle-btn .fa-sun {
+            display: block;
+            color: #FBBF24;
+        }
+
+        html[data-theme="dark"] .theme-toggle-btn .fa-moon {
+            display: none;
+        }
+
+        /* Page Banner */
+        .page-banner {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.8)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="%2322C55E" opacity="0.3"/></svg>') repeat;
+            color: #FFFFFF;
+            padding: 7rem 0 1rem 0;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .page-banner h1 {
+            color: #FFFFFF !important;
+            font-size: 2.75rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            font-family: var(--font-heading);
+        }
+
+        .page-banner-sub {
+            font-size: 1.1rem;
+            color: #94A3B8 !important;
+            max-width: 700px;
+        }
+
+        .breadcrumb-custom {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+            padding-left: 0;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #64748B !important;
+        }
+
+        .breadcrumb-custom a {
+            color: var(--primary-color) !important;
+        }
+
+        .breadcrumb-custom li:not(:last-child)::after {
+            content: '/';
+            margin-left: 0.5rem;
+            color: #64748B !important;
+        }
+
+        @media (max-width: 767.98px) {
+            .page-banner {
+                padding: 7rem 0 3rem 0;
+            }
+            .page-banner h1 {
+                font-size: 2rem;
+            }
+            .navbar-brand-img {
+                height: 44px;
+            }
+        }
+
+        /* Footer Section Styles */
+        .footer-custom {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 5rem 0 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+
+        .footer-brand-img {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+            margin-bottom: 1.25rem;
+            transition: transform var(--transition-fast);
+            filter: invert(1) hue-rotate(180deg);
+        }
+
+        .footer-tagline {
+            color: var(--footer-text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            max-width: 320px;
+        }
+
+        .footer-title {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            color: #FFFFFF !important;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-links {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-contact-info {
+            color: var(--footer-text-muted);
+            font-size: 0.95rem;
+        }
+
+        .footer-contact-info i {
+            color: var(--primary-color);
+            width: 24px;
+        }
+
+        .footer-social-icons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .footer-social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-md);
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #FFFFFF !important;
+            transition: all var(--transition-fast);
+        }
+
+        .footer-social-icon:hover {
+            background-color: var(--primary-color);
+            color: #FFFFFF !important;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2rem;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: var(--footer-text-muted);
+        }
+
+        .footer-custom p,
+        .footer-custom li,
+        .footer-custom span,
+        .footer-custom div,
+        .footer-custom .text-muted {
+            color: var(--footer-text-muted) !important;
+        }
+
+        .footer-custom a {
+            color: var(--footer-text-muted) !important;
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .footer-custom a:hover {
+            color: var(--primary-color) !important;
+        }
+
+        /* Back To Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+            width: 45px;
+            height: 45px;
+            background-color: var(--primary-color);
+            color: #FFFFFF;
+            border: none;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
+            transition: all var(--transition-normal);
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-3px);
+            color: #FFFFFF;
+        }
+
+        /* ── Custom Jobs Board Deck ───────────────────────────── */
+        .jobs-shell {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .jobs-sidebar {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+
+        .sidebar-section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .search-box-wrap {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            pointer-events: none;
+        }
+
+        .search-box-input {
+            width: 100%;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.6rem 1rem 0.6rem 2.2rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: all var(--transition-fast);
+        }
+
+        .search-box-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        /* Sidebar category items */
+        .job-cat-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .job-cat-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.6rem 0.85rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            border: 1px solid transparent;
+            background-color: transparent;
+            text-align: left;
+            width: 100%;
+            transition: all var(--transition-fast);
+        }
+
+        .job-cat-item:hover {
+            background-color: var(--bg-color);
+            border-color: var(--border-color);
+        }
+
+        .job-cat-item.active {
+            background-color: var(--primary-glow);
+            border-color: rgba(34, 197, 94, 0.2);
+        }
+
+        .job-cat-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: capitalize;
+        }
+
+        .job-cat-item.active .job-cat-name {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .job-cat-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background-color: var(--bg-color);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .job-cat-item.active .job-cat-count {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border-color: var(--primary-color);
+            opacity: 1;
+        }
+
+        /* Sidebar stats */
+        .job-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .job-stats-card {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        .job-stats-val {
+            display: block;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1.1;
+        }
+
+        .job-stats-lbl {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* Job cards */
+        .job-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all var(--transition-normal);
+            animation: cardFadeIn 0.3s ease both;
+        }
+
+        @keyframes cardFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .job-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-sm);
+            background-color: var(--primary-glow);
+        }
+
+        .job-card-main {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            flex-grow: 1;
+        }
+
+        .job-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--primary-glow) 0%, rgba(34, 197, 94, 0.2) 100%);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.05);
+        }
+
+        .job-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .job-role-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .job-role-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .job-company {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .job-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+
+        .job-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .job-meta-item i {
+            color: var(--primary-color);
+            font-size: 0.8rem;
+        }
+
+        .job-cat-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--primary-color);
+            background-color: var(--primary-glow);
+            border: 1px solid rgba(34, 197, 94, 0.15);
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .job-cat-tag::before {
+            content: '<';
+            opacity: 0.5;
+        }
+
+        .job-cat-tag::after {
+            content: '/>';
+            opacity: 0.5;
+        }
+
+        .job-apply-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #ffffff !important;
+            background-color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            padding: 0.6rem 1.25rem;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            letter-spacing: 0.2px;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+        }
+
+        .job-apply-btn:hover {
+            background-color: #16a34a;
+            border-color: #16a34a;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(34, 197, 94, 0.3);
+        }
+
+        .job-apply-btn i {
+            font-size: 0.75rem;
+            transition: transform var(--transition-fast);
+        }
+
+        .job-apply-btn:hover i {
+            transform: translate(2px, -2px);
+        }
+
+        /* Empty states */
+        .empty-state-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        /* Pagination style */
+        .jobs-pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .jobs-page-btns {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .jobs-page-btn {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            min-width: 32px;
+            text-align: center;
+        }
+
+        .jobs-page-btn:hover:not(:disabled) {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background-color: var(--primary-glow);
+        }
+
+        .jobs-page-btn.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #ffffff !important;
+            font-weight: 600;
+        }
+
+        .jobs-page-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .jobs-page-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Live indicator */
+        .live-indicator-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--primary-color);
+            background: var(--primary-glow);
+            border: 1px solid rgba(34,197,94,0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .live-indicator-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            animation: pulse-indicator 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-indicator {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Responsive breakpoints */
+        @media (max-width: 991px) {
+            .jobs-shell {
+                grid-template-columns: 1fr;
+            }
+            .jobs-sidebar {
+                position: static;
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .job-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1.25rem;
+            }
+            .job-apply-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .job-avatar {
+                display: none;
+            }
+        }
+    </style>
 </head>
-
 <body>
-<div class="shell">
 
-  <!-- ── Topbar ── -->
-  <header class="topbar">
-    <a href="https://silentcoderhub.in" class="logo">
-      <div class="logo-mark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="16 18 22 12 16 6"/>
-          <polyline points="8 6 2 12 8 18"/>
-        </svg>
-      </div>
-      <div class="logo-text">
-        <span class="logo-name">SilentCoderHub</span>
-        <span class="logo-sub">Jobs Board</span>
-      </div>
-    </a>
-    <div class="topbar-right">
-      <div class="live-badge">
-        <span class="live-dot"></span>
-        Live
-      </div>
-      <a href="https://silentcoderhub.in" target="_blank" rel="noopener noreferrer" class="topbar-link">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-        Admin
-      </a>
-    </div>
-  </header>
+    <div id="scroll-progress"></div>
 
-  <!-- ── Sidebar ── -->
-  <aside class="sidebar">
-
-    <div class="sidebar-section">
-      <span class="sidebar-label">// search</span>
-      <div class="search-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-        </svg>
-        <input id="searchInput" class="search-input" type="search"
-          placeholder="company, role, keyword…" aria-label="Search jobs" autocomplete="off" />
-      </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="sidebar-section">
-      <span class="sidebar-label">// stats</span>
-      <div class="stat-grid">
-        <div class="stat-tile">
-          <span id="totalJobs" class="stat-num">—</span>
-          <span class="stat-lbl">Total</span>
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-custom" id="main-navbar">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="image.png" alt="SilentCoderHub Logo" class="navbar-brand-img">
+            </a>
+            <div class="d-flex align-items-center gap-2 order-lg-last">
+                <!-- Theme Switcher Toggle -->
+                <button id="theme-toggle" type="button" class="theme-toggle-btn" aria-label="Toggle light or dark theme" title="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun"></i>
+                </button>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"><i class="fas fa-bars navbar-toggler-icon-custom"></i></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav gap-1 mt-3 mt-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">About</a>
+                        <ul class="dropdown-menu border-0 shadow-lg" aria-labelledby="aboutDropdown">
+                            <li><a class="dropdown-item py-2" href="about.html">Our Story</a></li>
+                            <li><a class="dropdown-item py-2" href="mission.html">Mission & Vision</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="resources.html">Resources</a></li>
+                    <li class="nav-item"><a class="nav-link" href="python-sandbox.html">Sandbox</a></li>
+                    <li class="nav-item"><a class="nav-link" href="career.html">Roadmaps</a></li>
+                    <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="community.html">Community</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="certificate-verification.html">Verification</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="stat-tile">
-          <span id="companiesCount" class="stat-num">—</span>
-          <span class="stat-lbl">Cos.</span>
-        </div>
-        <div class="stat-tile" style="grid-column:1/-1">
-          <span id="filteredCount" class="stat-num">—</span>
-          <span class="stat-lbl">Showing</span>
-        </div>
-      </div>
-    </div>
+    </nav>
 
-    <div class="divider"></div>
-
-    <div class="sidebar-section">
-      <span class="sidebar-label">// category</span>
-      <div class="cat-list" id="catList">
-        <!-- populated by JS -->
-      </div>
-    </div>
-
-  </aside>
-
-  <!-- ── Main ── -->
-  <main class="main">
-
-    <div class="hero">
-      <h1 class="hero-headline">
-        Build quietly.<br>
-        <span class="accent">Ship loudly.</span><span class="cursor"></span>
-      </h1>
-      <p class="hero-sub">Fresher &amp; entry-level tech jobs · updated daily</p>
-    </div>
-
-    <div class="toolbar">
-      <p class="result-info" id="resultInfo">
-        Showing <span id="ri-showing">—</span> of <span id="ri-total">—</span> jobs
-      </p>
-    </div>
-
-    <div class="table-wrap">
-      <div class="table-scroll">
-        <table aria-label="Jobs table">
-          <thead>
-            <tr>
-              <th style="width:22%">Company</th>
-              <th style="width:28%">Role</th>
-              <th style="width:18%">Category</th>
-              <th style="width:14%">Posted</th>
-              <th style="width:10%">Link</th>
-            </tr>
-          </thead>
-          <tbody id="jobsTableBody">
-            <tr class="state-row">
-              <td colspan="5">
-                <div class="state-inner">
-                  <div class="spinner"></div>
-                  <span class="state-msg">fetching opportunities…</span>
+    <!-- Page Banner -->
+    <header class="page-banner" style="margin-top: 20px;">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div>
+                    <h1>Jobs Board</h1>
+                    <p class="page-banner-sub">Daily fresher and entry-level software roles. Curated for coders who build quietly and ship loudly.</p>
                 </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="pagination" id="pagination" style="display:none"></div>
-    </div>
+                <div class="live-indicator-badge">
+                    <span class="live-indicator-dot"></span>
+                    Live Updates
+                </div>
+            </div>
+            <ul class="breadcrumb-custom">
+                <li><a href="index.html">Home</a></li>
+                <li>Jobs</li>
+            </ul>
+        </div>
+    </header>
 
-    <footer class="footer-bar">
-      <p>© 2025 <a href="#">SilentCoderHub</a> · Curated for builders across India 🇮🇳</p>
-      <p id="lastUpdated" style="display:none"></p>
+    <!-- Main Content Section -->
+    <section class="py-5">
+        <div class="container">
+            
+            <div class="jobs-shell">
+                
+                <!-- Sidebar Panel -->
+                <aside class="jobs-sidebar">
+                    
+                    <!-- Search section -->
+                    <div class="mb-4">
+                        <span class="sidebar-section-title">// Search</span>
+                        <div class="search-box-wrap">
+                            <i class="fas fa-search search-box-icon"></i>
+                            <input id="searchInput" class="search-box-input" type="search" placeholder="Company, role, keyword..." aria-label="Search jobs" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <!-- Statistics section -->
+                    <div class="mb-4 border-top pt-4 border-opacity-10" style="border-top-color: var(--border-color) !important;">
+                        <span class="sidebar-section-title">// Statistics</span>
+                        <div class="job-stats-grid">
+                            <div class="job-stats-card">
+                                <span id="totalJobs" class="job-stats-val">—</span>
+                                <span class="job-stats-lbl">Total</span>
+                            </div>
+                            <div class="job-stats-card">
+                                <span id="companiesCount" class="job-stats-val">—</span>
+                                <span class="job-stats-lbl">Companies</span>
+                            </div>
+                            <div class="job-stats-card" style="grid-column: 1 / -1; margin-top: 0.5rem;">
+                                <span id="filteredCount" class="job-stats-val">—</span>
+                                <span class="job-stats-lbl">Showing</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category filter section -->
+                    <div class="border-top pt-4 border-opacity-10" style="border-top-color: var(--border-color) !important;">
+                        <span class="sidebar-section-title">// Category</span>
+                        <div class="job-cat-list" id="catList">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                </aside>
+
+                <!-- Cards grid/feed list -->
+                <div class="jobs-feed">
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                        <p class="result-info mb-0" id="resultInfo">
+                            Showing <span id="ri-showing" class="text-success fw-bold">—</span> of <span id="ri-total" class="text-success fw-bold">—</span> jobs
+                        </p>
+                        <p id="lastUpdated" class="text-secondary small font-monospace" style="display:none"></p>
+                    </div>
+
+                    <!-- Container for dynamic job cards -->
+                    <div id="jobsContainer">
+                        <div class="empty-state-card py-5">
+                            <div class="spinner-border text-success mb-3" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="text-muted small">Fetching opportunities...</p>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="jobs-pagination" id="pagination" style="display:none">
+                        <!-- Populated dynamically -->
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <img src="image.png" alt="SilentCoderHub Footer Logo" class="footer-brand-img" loading="lazy">
+                    <p class="footer-tagline">Speak Less. Build More. A technology career development platform empowering programmers to build, verify, and excel.</p>
+                    <div class="footer-social-icons">
+                        <a href="https://instagram.com/silentcoderhub" target="_blank" rel="noopener" class="footer-social-icon" aria-label="SilentCoderHub Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="mailto:silentcoderhub@gmail.com" class="footer-social-icon" aria-label="Email SilentCoderHub"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6">
+                    <h3 class="footer-title">Ecosystem</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="mission.html">Mission & Vision</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="career.html">Roadmaps</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6">
+                    <h3 class="footer-title">Practice</h3>
+                    <ul class="footer-links">
+                        <li><a href="projects.html">Showcase Projects</a></li>
+                        <li><a href="community.html">Community Portal</a></li>
+                        <li><a href="blog.html">Technical Blog</a></li>
+                        <li><a href="certificate-verification.html">Verification</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h3 class="footer-title">Platform Scope</h3>
+                    <p class="footer-tagline" style="font-size: 0.85rem;">Online technology learning community dedicated to helping developers structure skills, manage GitHub outputs, optimize resume ATS benchmarks, and mock interview preparations.</p>
+                    <div class="footer-contact-info mt-2">
+                        <p class="mb-1"><i class="fas fa-envelope"></i> silentcoderhub@gmail.com</p>
+                        <p class="mb-0"><i class="fas fa-map-marker-alt"></i> Online Platform (Global)</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                <p class="mb-0">© 2026 SilentCoderHub. All Rights Reserved.</p>
+                <div class="d-flex gap-3">
+                    <a href="privacy-policy.html" class="text-muted small">Privacy Policy</a>
+                    <a href="terms-and-conditions.html" class="text-muted small">Terms & Conditions</a>
+                    <a href="disclaimer.html" class="text-muted small">Disclaimer</a>
+                </div>
+            </div>
+        </div>
     </footer>
-  </main>
 
-</div>
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top" title="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
 
-<script>
-  // ── Config ───────────────────────────────────────────────
-  const SHEET_URL =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTl18ACAimHKP6rnGtCqx8OVsIDay1hOfw67U5EwYmMOL77jUfo3QIZmjIh5589YV4Kp22hIHygLWla/pub?output=csv";
-  const PAGE_SIZE = 30;
+    <!-- Bootstrap Bundle CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-  // ── State ────────────────────────────────────────────────
-  let allJobs      = [];
-  let filteredJobs = [];
-  let currentPage  = 1;
-  let activeCategory = "";
+    <!-- Standalone Compiled JS Block -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Initialize Theme Switcher (Dark/Light mode)
+            const initTheme = () => {
+                const themeToggleBtn = document.getElementById('theme-toggle');
+                if (!themeToggleBtn) return;
 
-  // ── CSV Parser ───────────────────────────────────────────
-  function parseCSV(text) {
-    const rows = [];
-    const lines = text.trim().split(/\r?\n/);
-    for (const line of lines) {
-      const cols = [];
-      let cur = '', inQ = false;
-      for (let i = 0; i < line.length; i++) {
-        const ch = line[i];
-        if (ch === '"') {
-          if (inQ && line[i+1] === '"') { cur += '"'; i++; }
-          else inQ = !inQ;
-        } else if (ch === ',' && !inQ) {
-          cols.push(cur.trim()); cur = '';
-        } else { cur += ch; }
-      }
-      cols.push(cur.trim());
-      rows.push(cols);
-    }
-    return rows;
-  }
+                const currentTheme = localStorage.getItem('theme') || 'light';
+                document.documentElement.setAttribute('data-theme', currentTheme);
+                
+                themeToggleBtn.addEventListener('click', () => {
+                    const theme = document.documentElement.getAttribute('data-theme');
+                    let newTheme = 'light';
+                    if (theme === 'light') {
+                        newTheme = 'dark';
+                    }
+                    
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                });
+            };
 
-  // ── Load ─────────────────────────────────────────────────
-  async function loadJobs() {
-    try {
-      const res = await fetch(SHEET_URL);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const csv  = await res.text();
-      const rows = parseCSV(csv);
+            // 2. Sticky Navbar scroll handler
+            const initStickyNavbar = () => {
+                const navbar = document.querySelector('.navbar-custom');
+                if (!navbar) return;
 
-      allJobs = rows.slice(1)
-        .map(r => ({
-          company:  r[0] || "",
-          role:     r[1] || "",
-          category: r[2] || "",
-          date:     r[3] || "",
-          link:     r[4] || ""
-        }))
-        .filter(j => j.company.trim());
+                const handleScroll = () => {
+                    if (window.scrollY > 50) {
+                        navbar.classList.add('navbar-scrolled');
+                    } else {
+                        navbar.classList.remove('navbar-scrolled');
+                    }
+                };
 
-      allJobs.reverse();
-      filteredJobs = [...allJobs];
+                window.addEventListener('scroll', handleScroll);
+                handleScroll();
+            };
 
-      buildCatList();
-      renderPage();
+            // 3. Scroll Progress Indicator & Back to Top visibility
+            const initScrollProgressAndBackToTop = () => {
+                const progressIndicator = document.getElementById('scroll-progress');
+                const backToTopBtn = document.getElementById('back-to-top');
 
-      const now = new Date();
-      const el = document.getElementById('lastUpdated');
-      el.textContent = `Last synced: ${now.toLocaleTimeString()}`;
-      el.style.display = 'block';
+                const handleProgress = () => {
+                    const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    if (windowHeight > 0) {
+                        const scrolledPercent = (window.scrollY / windowHeight) * 100;
+                        if (progressIndicator) {
+                            progressIndicator.style.width = scrolledPercent + '%';
+                        }
+                    }
 
-    } catch (err) {
-      document.getElementById("jobsTableBody").innerHTML =
-        `<tr class="state-row"><td colspan="5">
-          <div class="state-inner">
-            <span class="state-icon">⚠</span>
-            <span class="state-msg">failed to load — try refreshing</span>
-          </div>
-        </td></tr>`;
-      console.error("loadJobs error:", err);
-    }
-  }
+                    if (backToTopBtn) {
+                        if (window.scrollY > 300) {
+                            backToTopBtn.classList.add('active');
+                        } else {
+                            backToTopBtn.classList.remove('active');
+                        }
+                    }
+                };
 
-  // ── Category Sidebar ─────────────────────────────────────
-  function buildCatList() {
-    const catMap = {};
-    allJobs.forEach(j => {
-      const c = j.category.trim();
-      if (c) catMap[c] = (catMap[c] || 0) + 1;
-    });
-    const cats = Object.entries(catMap).sort((a,b) => b[1] - a[1]);
+                window.addEventListener('scroll', handleProgress);
+                handleProgress();
 
-    const list = document.getElementById('catList');
-    // All option
-    list.innerHTML = `
-      <div class="cat-item active" data-cat="" onclick="setCategory(this,'')">
-        <span class="cat-item-name">all</span>
-        <span class="cat-count">${allJobs.length}</span>
-      </div>
-    `;
-    cats.forEach(([c, n]) => {
-      const div = document.createElement('div');
-      div.className = 'cat-item';
-      div.dataset.cat = c.toLowerCase();
-      div.setAttribute('onclick', `setCategory(this,'${c.toLowerCase()}')`);
-      div.innerHTML = `
-        <span class="cat-item-name">${escHtml(c.toLowerCase())}</span>
-        <span class="cat-count">${n}</span>
-      `;
-      list.appendChild(div);
-    });
-  }
+                if (backToTopBtn) {
+                    backToTopBtn.addEventListener('click', () => {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    });
+                }
+            };
 
-  function setCategory(el, cat) {
-    activeCategory = cat;
-    document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
-    el.classList.add('active');
-    filterJobs();
-  }
+            // 4. Close mobile navbar collapse on link click
+            const initMobileMenuAutoClose = () => {
+                const navLinks = document.querySelectorAll('.navbar-nav .nav-link:not(.dropdown-toggle)');
+                const navbarCollapse = document.getElementById('navbarNav');
+                if (!navbarCollapse) return;
 
-  // ── Render ───────────────────────────────────────────────
-  function renderPage() {
-    const body  = document.getElementById("jobsTableBody");
-    const start = (currentPage - 1) * PAGE_SIZE;
-    const slice = filteredJobs.slice(start, start + PAGE_SIZE);
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (window.innerWidth < 992) {
+                            const bsCollapse = new bootstrap.Collapse(navbarCollapse, { toggle: false });
+                            bsCollapse.hide();
+                        }
+                    });
+                });
+            };
 
-    document.getElementById("totalJobs").textContent     = allJobs.length;
-    document.getElementById("companiesCount").textContent =
-      new Set(allJobs.map(j => j.company)).size;
-    document.getElementById("filteredCount").textContent = filteredJobs.length;
-    document.getElementById("ri-showing").textContent    = filteredJobs.length;
-    document.getElementById("ri-total").textContent      = allJobs.length;
+            // Run Core Page Interactions
+            initTheme();
+            initStickyNavbar();
+            initScrollProgressAndBackToTop();
+            initMobileMenuAutoClose();
+        });
 
-    if (!filteredJobs.length) {
-      body.innerHTML = `
-        <tr class="state-row"><td colspan="5">
-          <div class="state-inner">
-            <span class="state-icon">∅</span>
-            <span class="state-msg">no results — try a different filter</span>
-          </div>
-        </td></tr>`;
-      renderPagination();
-      return;
-    }
+        // ── Config ───────────────────────────────────────────────
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTl18ACAimHKP6rnGtCqx8OVsIDay1hOfw67U5EwYmMOL77jUfo3QIZmjIh5589YV4Kp22hIHygLWla/pub?output=csv";
+        const PAGE_SIZE = 10;
 
-    const frag = document.createDocumentFragment();
-    slice.forEach((j, idx) => {
-      const tr = document.createElement("tr");
-      tr.style.animationDelay = `${idx * 18}ms`;
-      const safeLink = j.link.startsWith("http") ? j.link : "#";
-      const initials = j.company.trim().slice(0, 2).toUpperCase();
-      tr.innerHTML = `
-        <td>
-          <div class="co-cell">
-            <div class="co-avatar">${escHtml(initials)}</div>
-            <span class="co-name">${escHtml(j.company)}</span>
-          </div>
-        </td>
-        <td><span class="role-text">${escHtml(j.role)}</span></td>
-        <td><span class="cat-tag">${escHtml(j.category)}</span></td>
-        <td><span class="date-text">${escHtml(j.date)}</span></td>
-        <td>
-          <a href="${safeLink}" target="_blank" rel="noopener noreferrer"
-             class="apply-btn" aria-label="Apply for ${escHtml(j.role)} at ${escHtml(j.company)}">
-            Apply
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M7 17L17 7"/><path d="M7 7h10v10"/>
-            </svg>
-          </a>
-        </td>
-      `;
-      frag.appendChild(tr);
-    });
+        // ── State ────────────────────────────────────────────────
+        let allJobs      = [];
+        let filteredJobs = [];
+        let currentPage  = 1;
+        let activeCategory = "";
 
-    body.innerHTML = "";
-    body.appendChild(frag);
-    renderPagination();
-  }
+        // ── CSV Parser ───────────────────────────────────────────
+        function parseCSV(text) {
+            const rows = [];
+            const lines = text.trim().split(/\r?\n/);
+            for (const line of lines) {
+                const cols = [];
+                let cur = '', inQ = false;
+                for (let i = 0; i < line.length; i++) {
+                    const ch = line[i];
+                    if (ch === '"') {
+                        if (inQ && line[i+1] === '"') { cur += '"'; i++; }
+                        else inQ = !inQ;
+                    } else if (ch === ',' && !inQ) {
+                        cols.push(cur.trim()); cur = '';
+                    } else { cur += ch; }
+                }
+                cols.push(cur.trim());
+                rows.push(cols);
+            }
+            return rows;
+        }
 
-  // ── Pagination ───────────────────────────────────────────
-  function renderPagination() {
-    const pag        = document.getElementById("pagination");
-    const totalPages = Math.ceil(filteredJobs.length / PAGE_SIZE);
+        // ── Load ─────────────────────────────────────────────────
+        async function loadJobs() {
+            try {
+                const res = await fetch(SHEET_URL);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const csv  = await res.text();
+                const rows = parseCSV(csv);
 
-    if (totalPages <= 1) { pag.style.display = 'none'; return; }
-    pag.style.display = 'flex';
+                allJobs = rows.slice(1)
+                    .map(r => ({
+                        company:  r[0] || "",
+                        role:     r[1] || "",
+                        category: r[2] || "",
+                        date:     r[3] || "",
+                        link:     r[4] || ""
+                    }))
+                    .filter(j => j.company.trim());
 
-    const range = getPageRange(currentPage, totalPages);
-    let btnHtml = '';
-    range.forEach(p => {
-      if (p === "…") {
-        btnHtml += `<span style="color:var(--faint);font-family:'JetBrains Mono',monospace;font-size:12px;padding:0 4px">…</span>`;
-      } else {
-        btnHtml += `<button class="page-btn${p === currentPage ? ' active' : ''}"
-          onclick="goPage(${p})" aria-label="Page ${p}">${p}</button>`;
-      }
-    });
+                allJobs.reverse();
+                filteredJobs = [...allJobs];
 
-    pag.innerHTML = `
-      <button class="page-btn" onclick="goPage(${currentPage-1})"
-        ${currentPage===1?'disabled':''} aria-label="Previous">‹</button>
-      <div class="page-btns">${btnHtml}</div>
-      <button class="page-btn" onclick="goPage(${currentPage+1})"
-        ${currentPage===totalPages?'disabled':''} aria-label="Next">›</button>
-      <span class="page-meta">${currentPage} / ${totalPages}</span>
-    `;
-  }
+                buildCatList();
+                renderPage();
 
-  function getPageRange(cur, total) {
-    if (total <= 7) return Array.from({length:total},(_,i)=>i+1);
-    if (cur <= 4)   return [1,2,3,4,5,'…',total];
-    if (cur >= total-3) return [1,'…',total-4,total-3,total-2,total-1,total];
-    return [1,'…',cur-1,cur,cur+1,'…',total];
-  }
+                // Last synced timestamp
+                const now = new Date();
+                const updatedEl = document.getElementById('lastUpdated');
+                if (updatedEl) {
+                    updatedEl.textContent = `Sync: ${now.toLocaleTimeString()}`;
+                    updatedEl.style.display = 'block';
+                }
+            } catch (err) {
+                document.getElementById("jobsContainer").innerHTML = `
+                    <div class="empty-state-card py-5 border-danger border-opacity-20">
+                        <i class="fas fa-exclamation-triangle text-danger fa-3x mb-3"></i>
+                        <h4>Failed to load job opportunities</h4>
+                        <p class="text-secondary small max-width-400 mx-auto">Please check your internet connection or try refreshing the page.</p>
+                    </div>`;
+                console.error("loadJobs error:", err);
+            }
+        }
 
-  function goPage(p) {
-    const total = Math.ceil(filteredJobs.length / PAGE_SIZE);
-    if (p < 1 || p > total) return;
-    currentPage = p;
-    renderPage();
-    document.querySelector('.main').scrollTo({ top: 0, behavior: 'smooth' });
-  }
+        // ── Category Sidebar ─────────────────────────────────────
+        function buildCatList() {
+            const catMap = {};
+            allJobs.forEach(j => {
+                const c = j.category.trim();
+                if (c) catMap[c] = (catMap[c] || 0) + 1;
+            });
+            const cats = Object.entries(catMap).sort((a,b) => b[1] - a[1]);
 
-  // ── Filter ───────────────────────────────────────────────
-  function filterJobs() {
-    const search = document.getElementById("searchInput").value.toLowerCase().trim();
+            const list = document.getElementById('catList');
+            
+            // All option button
+            list.innerHTML = `
+                <button class="job-cat-item active" data-cat="" onclick="setCategory(this,'')">
+                    <span class="job-cat-name">All Categories</span>
+                    <span class="job-cat-count">${allJobs.length}</span>
+                </button>
+            `;
+            cats.forEach(([c, n]) => {
+                const btn = document.createElement('button');
+                btn.className = 'job-cat-item';
+                btn.dataset.cat = c.toLowerCase();
+                btn.setAttribute('onclick', `setCategory(this,'${c.toLowerCase()}')`);
+                btn.innerHTML = `
+                    <span class="job-cat-name">${escHtml(c.toLowerCase())}</span>
+                    <span class="job-cat-count">${n}</span>
+                `;
+                list.appendChild(btn);
+            });
+        }
 
-    filteredJobs = allJobs.filter(j => {
-      const txt = `${j.company} ${j.role} ${j.category}`.toLowerCase();
-      return (!search || txt.includes(search)) &&
-             (!activeCategory || j.category.toLowerCase() === activeCategory);
-    });
+        function setCategory(el, cat) {
+            activeCategory = cat;
+            document.querySelectorAll('.job-cat-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+            filterJobs();
+        }
 
-    currentPage = 1;
-    renderPage();
-  }
+        // ── Render ───────────────────────────────────────────────
+        function renderPage() {
+            const container = document.getElementById("jobsContainer");
+            const start = (currentPage - 1) * PAGE_SIZE;
+            const slice = filteredJobs.slice(start, start + PAGE_SIZE);
 
-  // ── Helpers ──────────────────────────────────────────────
-  function escHtml(str) {
-    return str
-      .replace(/&/g,"&amp;").replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-  }
+            document.getElementById("totalJobs").textContent     = allJobs.length;
+            document.getElementById("companiesCount").textContent = new Set(allJobs.map(j => j.company)).size;
+            document.getElementById("filteredCount").textContent = filteredJobs.length;
+            document.getElementById("ri-showing").textContent    = filteredJobs.length;
+            document.getElementById("ri-total").textContent      = allJobs.length;
 
-  function debounce(fn, delay=280) {
-    let t;
-    return (...a) => { clearTimeout(t); t = setTimeout(()=>fn(...a), delay); };
-  }
+            if (!filteredJobs.length) {
+                container.innerHTML = `
+                    <div class="empty-state-card mt-3">
+                        <i class="fas fa-search-minus fa-3x text-success mb-3"></i>
+                        <h4>No job opportunities found</h4>
+                        <p class="text-secondary small max-width-400 mx-auto mb-0">Try refining your search keyword or selecting a different category filter.</p>
+                    </div>`;
+                renderPagination();
+                return;
+            }
 
-  // ── Events ───────────────────────────────────────────────
-  document.getElementById("searchInput")
-    .addEventListener("input", debounce(filterJobs));
+            const cardsHTML = slice.map((j, idx) => {
+                const safeLink = j.link.startsWith("http") ? j.link : "#";
+                const initials = j.company.trim().slice(0, 2).toUpperCase();
+                
+                return `
+                    <div class="job-card">
+                        <div class="job-card-main">
+                            <div class="job-avatar">${escHtml(initials)}</div>
+                            <div class="job-details">
+                                <div class="job-role-row">
+                                    <h3 class="job-role-title">${escHtml(j.role)}</h3>
+                                    <span class="job-cat-tag">${escHtml(j.category)}</span>
+                                </div>
+                                <div class="job-meta-row">
+                                    <span class="job-company"><i class="fas fa-building me-1"></i> ${escHtml(j.company)}</span>
+                                    <span class="job-meta-item"><i class="far fa-calendar-alt"></i> Posted: ${escHtml(j.date)}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <a href="${safeLink}" target="_blank" rel="noopener noreferrer" 
+                               class="job-apply-btn" aria-label="Apply for ${escHtml(j.role)} at ${escHtml(j.company)}">
+                                <span>Apply Now</span>
+                                <i class="fas fa-arrow-up-right-from-square"></i>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
 
-  // ── Boot ─────────────────────────────────────────────────
-  loadJobs();
-</script>
+            container.innerHTML = cardsHTML;
+            renderPagination();
+        }
+
+        // ── Pagination ───────────────────────────────────────────
+        function renderPagination() {
+            const pag        = document.getElementById("pagination");
+            const totalPages = Math.ceil(filteredJobs.length / PAGE_SIZE);
+
+            if (totalPages <= 1) { pag.style.display = 'none'; return; }
+            pag.style.display = 'flex';
+
+            const range = getPageRange(currentPage, totalPages);
+            let btnHtml = '';
+            range.forEach(p => {
+                if (p === "…") {
+                    btnHtml += `<span class="px-2" style="color: var(--text-secondary); opacity: 0.5;">…</span>`;
+                } else {
+                    btnHtml += `<button class="jobs-page-btn${p === currentPage ? ' active' : ''}"
+                        onclick="goPage(${p})" aria-label="Page ${p}">${p}</button>`;
+                }
+            });
+
+            pag.innerHTML = `
+                <button class="jobs-page-btn" onclick="goPage(${currentPage-1})"
+                    ${currentPage===1?'disabled':''} aria-label="Previous Page"><i class="fas fa-chevron-left"></i></button>
+                <div class="jobs-page-btns">${btnHtml}</div>
+                <button class="jobs-page-btn" onclick="goPage(${currentPage+1})"
+                    ${currentPage===totalPages?'disabled':''} aria-label="Next Page"><i class="fas fa-chevron-right"></i></button>
+                <span class="jobs-page-meta">${currentPage} / ${totalPages}</span>
+            `;
+        }
+
+        // Helper range logic
+        function getPageRange(cur, total) {
+            if (total <= 7) return Array.from({length:total},(_,i)=>i+1);
+            if (cur <= 4)   return [1,2,3,4,5,'…',total];
+            if (cur >= total-3) return [1,'…',total-4,total-3,total-2,total-1,total];
+            return [1,'…',cur-1,cur,cur+1,'…',total];
+        }
+
+        function goPage(p) {
+            const total = Math.ceil(filteredJobs.length / PAGE_SIZE);
+            if (p < 1 || p > total) return;
+            currentPage = p;
+            renderPage();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ── Filter ───────────────────────────────────────────────
+        function filterJobs() {
+            const search = document.getElementById("searchInput").value.toLowerCase().trim();
+
+            filteredJobs = allJobs.filter(j => {
+                const txt = `${j.company} ${j.role} ${j.category}`.toLowerCase();
+                return (!search || txt.includes(search)) &&
+                       (!activeCategory || j.category.toLowerCase() === activeCategory);
+            });
+
+            currentPage = 1;
+            renderPage();
+        }
+
+        // ── Helpers ──────────────────────────────────────────────
+        function escHtml(str) {
+            return str
+                .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+                .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+        }
+
+        function debounce(fn, delay=280) {
+            let t;
+            return (...a) => { clearTimeout(t); t = setTimeout(()=>fn(...a), delay); };
+        }
+
+        // ── Events ───────────────────────────────────────────────
+        document.getElementById("searchInput")
+            .addEventListener("input", debounce(filterJobs));
+
+        // ── Boot ─────────────────────────────────────────────────
+        loadJobs();
+    </script>
 </body>
 </html>
